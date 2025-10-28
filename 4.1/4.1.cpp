@@ -1,49 +1,42 @@
-﻿#include <iostream>
+#include <iostream>
 #include "conio.h"
 #include "stdio.h"
-#include <iomanip>
-#include <cstdlib>
 int main()
 {
-    double p;
-    double S;
-    double help = 1.05;
-    double sum = 0;
-    double number = 1;
-    std::cout << "Vvedite p(1st deposit) and S (Sum of money needed)\n";
-    std::cin >> p >> S;
+    double x;
+    double q = 0;
+    std::cout << "Vvedite argument  x\n";
+    std::cin >> x;
     __asm
     {
-        fld p
-        fld sum
-        fadd st(0), st(1)
-        fcom S
-        fstsw ax
-        sahf
-        fstp sum
-        ja Hvatilo_srazu
-        fstp p
-        Ne_hvataet :
-        fld help
-            fld p
-            fmul st(0), st(1)
-            fstp p
-            fld p
-            fld sum
-            fld number
-            fld1
-            faddp st(1), st(0)
-            fstp number
-            fadd st(0), st(1)
-            fcom S
-            fstsw ax
-            sahf
-            fstp sum
-            fstp p
-            jb Ne_hvataet
-            Hvatilo_srazu :
+        fld1
+        fadd st(0), st(0)
+        fld x
+        fptan
+        fxch st(1)
+        fmul st(0), st(2)
+        fst st(1)
+        fyl2x
+        fld1
+        fld x
+        fmul st(0), st(0)
+        fld x
+        fmul st(0), st(1)
+        fadd st(0), st(2)
+        fsqrt
+        fcos
+        fmul st(0), st(1)
+        f2xm1
+        fadd st(0), st(2)
+        fdiv st(0), st(3)
+        fsqrt
+        fld x
+        fsub st(0), st(3)
+        fcos
+        fmul st(0), st(0)
+        fsubr st(0), st(1)
+        fstp q
     }
-    std::cout << "Month = " << number << "\n";
+    std::cout << "q = " << q << "\n";
     _getch();
-    return 0;
 }
